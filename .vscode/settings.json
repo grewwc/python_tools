@@ -1,0 +1,18 @@
+{
+    "python.pythonPath": "C:\\Users\\grewang\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
+    "python.linting.pylintEnabled": false,
+    "files.associations": {
+        "ostream": "cpp",
+        "xstring": "cpp",
+        "vector": "cpp",
+        "string_view": "cpp",
+        "iostream": "cpp",
+        "utility": "cpp",
+        "type_traits": "cpp",
+        "sstream": "cpp",
+        "xiosbase": "cpp",
+        "xmemory0": "cpp"
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Enabled",
+    "python.formatting.provider": "yapf"
+}
