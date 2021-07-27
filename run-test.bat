@@ -1,3 +1,3 @@
-%ECHO off 
+@echo off 
 
 python -m pytest %*

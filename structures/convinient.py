@@ -8,5 +8,6 @@ class ConvinientMixin:
         if callable(getattr(self, '__contains__', None)):
             return value in self 
         raise NotImplementedError(f'__contains__ not found in {self}')
+    
 
 
