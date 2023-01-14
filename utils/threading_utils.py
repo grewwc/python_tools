@@ -9,7 +9,7 @@ class CountDownLatch:
     def count_down(self):
         with self._cond:
             self._count -= 1
-            if self._cond <= 0:
+            if self._count <= 0:
                 self._cond.notify_all()
 
     def wait(self):

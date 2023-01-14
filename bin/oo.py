@@ -1,6 +1,7 @@
 #!../venv/bin/python3
 import sys
 import os
+import time 
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'utils'))
 
@@ -21,18 +22,20 @@ def _get_content_type(type_name, latch):
     if type_name not in supported_types:
         return None
     global data, t
+    contents = board.get_contents(getattr(pasteboard, type_name))
     if data is None:
         with type_lock:
-            if data is None:
+            if data is None and contents is not None:
                 try:
-                    data = board.get_contents(getattr(pasteboard, type_name))
+                    data = contents
                     if data is not None and len(data) > 0:
                         t = type_name
                 except Exception as e:
-                    print(e)
                     pass
                 finally:
                     latch.count_down()
+            else:
+                latch.count_down()
 
 
 def write_to_file(data, filename):
@@ -40,7 +43,7 @@ def write_to_file(data, filename):
         return
     mode = 'w' if t == 'String' else 'wb'
     if os.path.exists(filename):
-        ans = input('filename: {} exists, overwrite? (y/n) ')
+        ans = input('filename: {} exists, overwrite? (y/n) '.format(filename))
         if ans.lower() != 'y':
             print('skipping ...')
             return
@@ -83,7 +86,7 @@ def copy_from_file(filename, binary):
 def check_input(args, positional):
     if not args.copy and args.binary:
         return False, 'paste from clipboard no argument'
-    if len(positional) != 1:
+    if len(positional) != 1 and args.copy:
         return False, 'set the filename'
     return True, ''
 
@@ -102,7 +105,7 @@ def main():
     copy = True if args.copy else False
     binary = True if args.binary else False
 
-    filename = positional[0]
+    filename = 'temp.png' if len(positional) < 1 else positional[0]
     if copy:
         copy_from_file(filename, binary)
         print('<<< Done copying to clipboard')
