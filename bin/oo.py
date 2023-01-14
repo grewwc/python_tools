@@ -58,10 +58,6 @@ def get_contents():
     for type_name in supported_types:
         p.submit(_get_content_type, type_name, latch)
     latch.wait()
-    if data is None:
-        print("can't read from clipboard")
-        return
-    return data
 
 
 def copy_from_file(filename, binary):
@@ -76,7 +72,7 @@ def copy_from_file(filename, binary):
     success = board.set_contents(data, type_)
     if not success:
         print('error copy to clipboard')
-        return
+        return False
 
 
 def check_input(args, positional):
@@ -103,10 +99,15 @@ def main():
 
     filename = 'temp.png' if len(positional) < 1 else positional[0]
     if copy:
-        copy_from_file(filename, binary)
+        if not copy_from_file(filename, binary):
+            return 
         print('<<< Done copying to clipboard')
     else:
-        write_to_file(get_contents(), filename)
+        get_contents()
+        if data is None:
+            print("can't read from clipboard")
+            return 
+        write_to_file(data, filename)
         print('>>> Done pasting from clipboard')
 
 
