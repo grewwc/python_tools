@@ -28,14 +28,10 @@ def _get_content_type(type_name, latch):
             if data is None and contents is not None:
                 try:
                     data = contents
-                    if data is not None and len(data) > 0:
-                        t = type_name
+                    t = type_name
                 except Exception as e:
-                    pass
-                finally:
-                    latch.count_down()
-            else:
-                latch.count_down()
+                    print(e)
+    latch.count_down()
 
 
 def write_to_file(data, filename):
@@ -58,7 +54,7 @@ def write_to_file(data, filename):
 
 def get_contents():
     p = ThreadPoolExecutor(max_workers=4)
-    latch = CountDownLatch(4)
+    latch = CountDownLatch(len(supported_types))
     for type_name in supported_types:
         p.submit(_get_content_type, type_name, latch)
     latch.wait()
