@@ -73,6 +73,7 @@ def copy_from_file(filename, binary):
     if not success:
         print('error copy to clipboard')
         return False
+    return True
 
 
 def check_input(args, positional):
