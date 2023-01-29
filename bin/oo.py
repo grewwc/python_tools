@@ -1,21 +1,22 @@
 #!../venv/bin/python3
+from concurrent.futures import ThreadPoolExecutor
+from threading import RLock, Barrier
+import pasteboard
+from threading_utils import CountDownLatch
+from argparse import ArgumentParser
 import sys
 import os
-import time 
+import time
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'utils'))
 
-from argparse import ArgumentParser
-from threading_utils import CountDownLatch
-import pasteboard
-from threading import RLock, Barrier
-from concurrent.futures import ThreadPoolExecutor
 
 board = pasteboard.Pasteboard()
 supported_types = ['PDF', 'PNG', 'RTF', 'String', 'TIFF']
 type_lock = RLock()
 data = None
 t = None
+force = False
 
 
 def _get_content_type(type_name, latch):
@@ -39,10 +40,14 @@ def write_to_file(data, filename):
         return
     mode = 'w' if t == 'String' else 'wb'
     if os.path.exists(filename):
-        ans = input('filename: {} exists, overwrite? (y/n) '.format(filename))
-        if ans.lower() != 'y':
-            print('skipping ...')
-            return
+        if not force:
+            ans = input('filename: {} exists, overwrite? (y/n) '.format(filename))
+            if ans.lower() != 'y':
+                print('skipping ...')
+                return
+        else:
+            print('overwrite {}'.format(filename))
+
     dirname = os.path.dirname(filename)
 
     if dirname and not os.path.exists(dirname):
@@ -67,7 +72,7 @@ def copy_from_file(filename, binary):
             data = f.read()
     except FileNotFoundError:
         print('file: {} not found'.format(filename))
-        return 
+        return
     type_ = pasteboard.String if not binary else pasteboard.PNG
     success = board.set_contents(data, type_)
     if not success:
@@ -85,9 +90,11 @@ def check_input(args, positional):
 
 
 def main():
+    global force
     parser = ArgumentParser()
     parser.add_argument("--copy", "-c", action="store_true", help="copy to clipboard")
     parser.add_argument("--binary", '-b', action="store_true", help="binary file")
+    parser.add_argument("--force", "-f", action="store_true", help="force override")
     args, positional = parser.parse_known_args()
 
     valid_input, msg = check_input(args, positional)
@@ -97,17 +104,18 @@ def main():
 
     copy = True if args.copy else False
     binary = True if args.binary else False
+    force = True if args.force else False
 
     filename = 'temp.png' if len(positional) < 1 else positional[0]
     if copy:
         if not copy_from_file(filename, binary):
-            return 
+            return
         print('<<< Done copying to clipboard')
     else:
         get_contents()
         if data is None:
             print("can't read from clipboard")
-            return 
+            return
         write_to_file(data, filename)
         print('>>> Done pasting from clipboard')
 
