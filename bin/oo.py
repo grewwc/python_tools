@@ -2,13 +2,13 @@
 from concurrent.futures import ThreadPoolExecutor
 from threading import RLock, Barrier
 import pasteboard
-from threading_utils import CountDownLatch
 from argparse import ArgumentParser
 import sys
 import os
 import time
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'utils'))
+from threading_utils import CountDownLatch
 
 
 board = pasteboard.Pasteboard()
