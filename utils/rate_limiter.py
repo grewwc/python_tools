@@ -8,7 +8,7 @@ class SimpleRateLimiter:
         self._prev_time = time.perf_counter()
         self._cap = cap if cap is not None else self._rate*2
         self._l = threading.Lock()
-        self.token = init_token if min(init_token, self._cap) is not None else 0
+        self.token = min(init_token, self._cap) if init_token is not None else 0
 
     def ok(self, n=1):
         with self._l:
