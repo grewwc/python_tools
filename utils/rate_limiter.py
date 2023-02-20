@@ -7,6 +7,7 @@ class SimpleRateLimiter:
         self._rate = rate
         self._prev_time = time.perf_counter()
         self._cap = cap if cap is not None else self._rate*2
+        self._cap = max(self._cap, 1+1e-5)
         self._l = threading.Lock()
         self.token = min(init_token, self._cap) if init_token is not None else 0
 
