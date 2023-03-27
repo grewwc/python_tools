@@ -1,7 +1,10 @@
 from threading import RLock, Condition, Lock, Thread
 from concurrent.futures import ThreadPoolExecutor
 from queue import Queue
-from .rate_limiter import SimpleRateLimiter
+import sys 
+import os 
+sys.path.append(os.path.dirname(__file__))
+from rate_limiter import SimpleRateLimiter
 import time 
 
 _cost_name = "result.txt"
