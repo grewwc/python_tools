@@ -86,6 +86,9 @@ def main():
     binary = True if args.binary else False
     force = True if args.force else False
     paste = True if args.paste else False
+    if len(sys.argv) == 1:
+        parser.print_help()
+        return
 
     if len(positional) == 1:
         filename = positional[0]
