@@ -37,10 +37,19 @@ def calc_ul_dl(rate, dt=time_interval, interface="en0"):
 
 def print_rate(rate):
     try:
-        print("    Ul: {0:.0f} kB/s    Dl: {1:.0f} kB/s ".format(*rate[-1]) + ' ' * 20, end='\r', flush=True)
+        ul, dl = rate[-1]
+        ul = change_format(ul)
+        dl = change_format(dl)
+        print("    Ul: {}    Dl: {} ".format(ul, dl) + ' ' * 20, end='\r', flush=True)
     except IndexError:
         "Ul: - kB/s/ Dl: - kB/s"
 
+def change_format(speed: float) -> str:
+    unit = 'kB/s'
+    if speed >= 1024:
+        speed /= 2024
+        unit = 'mB/s'
+    return f'{speed:.2f} {unit}'
 
 def main():
     parser = ArgumentParser()
