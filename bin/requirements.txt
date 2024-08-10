@@ -1,0 +1,6 @@
+clipboard==0.0.4
+eduagent==0.1.0
+pillow==10.4.0
+psutil==6.0.0
+pyjpgclipboard==1.0.3
+pyperclip==1.9.0
