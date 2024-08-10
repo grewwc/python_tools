@@ -8,6 +8,7 @@ import psutil
 from argparse import ArgumentParser
 import platform
 import os
+import sys 
 
 time_interval = 0.5
 
@@ -22,7 +23,6 @@ def calc_ul_dl(rate, dt=time_interval, interface="en0"):
 
     while True:
         last_tot = tot
-        time.sleep(dt)
         counter = psutil.net_io_counters(pernic=True)[interface]
         t1 = time.time()
         tot = (counter.bytes_sent, counter.bytes_recv)
@@ -32,11 +32,12 @@ def calc_ul_dl(rate, dt=time_interval, interface="en0"):
         ]
         rate.append((ul, dl))
         t0 = time.time()
+        time.sleep(dt)
 
 
 def print_rate(rate):
     try:
-        print("\rUl: {0:.0f} kB/s\tDl: {1:.0f} kB/s ".format(*rate[-1]), end='', flush=True)
+        print("Ul: {0:.0f} kB/s    Dl: {1:.0f} kB/s ".format(*rate[-1]) + ' ' * 20, end='\r', flush=True)
     except IndexError:
         "Ul: - kB/s/ Dl: - kB/s"
 
