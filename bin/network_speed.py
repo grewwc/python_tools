@@ -10,7 +10,7 @@ import platform
 import os
 import sys 
 
-time_interval = 0.5
+time_interval = 1
 
 
 def calc_ul_dl(rate, dt=time_interval, interface="en0"):
