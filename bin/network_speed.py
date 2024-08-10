@@ -37,7 +37,7 @@ def calc_ul_dl(rate, dt=time_interval, interface="en0"):
 
 def print_rate(rate):
     try:
-        print("Ul: {0:.0f} kB/s    Dl: {1:.0f} kB/s ".format(*rate[-1]) + ' ' * 20, end='\r', flush=True)
+        print("    Ul: {0:.0f} kB/s    Dl: {1:.0f} kB/s ".format(*rate[-1]) + ' ' * 20, end='\r', flush=True)
     except IndexError:
         "Ul: - kB/s/ Dl: - kB/s"
 
