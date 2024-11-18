@@ -42,6 +42,3 @@ class Trie:
 
     def __contains__(self, key: str) -> bool:
         return self.exists(key)
-
-    def __del__(self, key: str) -> bool:
-        return self.remove(key)
