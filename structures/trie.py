@@ -35,8 +35,9 @@ class Trie:
         cur = self._root
         if not self.exists(key):
             return False
-        for ch in key:
-            cur[0] -= 1
+        for cnt, ch in enumerate(key):
+            if cnt + 1 == len(key):
+                cur[0] -= 1
             cur = cur[1][ch]
         return True
 
