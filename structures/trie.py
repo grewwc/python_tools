@@ -38,6 +38,8 @@ class Trie:
         for cnt, ch in enumerate(key):
             if cnt + 1 == len(key):
                 cur[0] -= 1
+            if cur[0] == 0 and ch not in cur[1]:
+                del cur[1][ch]
             cur = cur[1][ch]
         return True
 

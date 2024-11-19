@@ -14,7 +14,6 @@ def st1():
 
     return st
 
-@pytest.mark.success
 def test_get(st1):
     assert st1.get(2) == 3
 
