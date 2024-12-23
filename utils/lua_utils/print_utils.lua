@@ -2,23 +2,7 @@ local print_utils = {}
 
 
 
-function string.lstrip(str)
-    if type(str) ~= "string" then
-        return str
-    end
-    return str:match "^%s*(.*)"
-end
 
-function string.rstrip(str)
-    if type(str) ~= "string" then
-        return str
-    end
-    return str:match "(.-)%s*$"
-end
-
-function string.strip(str)
-    return str:lstrip():rstrip()
-end
 
 local function print_table(tbl, indent)
     local prefix = string.rep(' ', indent + 2)
