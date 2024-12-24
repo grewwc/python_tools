@@ -18,12 +18,14 @@ local function print_table(tbl, indent)
     io.write(string.rep(' ', indent), '}\n'):flush()
 end
 
-print_utils.print = function(value)
-    local type_ = type(value)
-    if type_ == 'table' then
-        print_table(value, 0)
-    else
-        print(value)
+print_utils.print = function(...)
+    for _, value in ipairs { ... } do
+        local type_ = type(value)
+        if type_ == 'table' then
+            print_table(value, 0)
+        else
+            print(value)
+        end
     end
 end
 

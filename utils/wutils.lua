@@ -1,6 +1,4 @@
 
--- package.path = 
-
 local w_utils = {}
 
 local check = require('lua_utils.check')
@@ -10,7 +8,8 @@ local cmd_utils = require('lua_utils.cmd')
 local split_utils = require('lua_utils.split')
 local string_utils = require('lua_utils.strings')
 
-w_utils.EndsWith = check.EndsWith
+w_utils.StartsWith = check.startsWith
+w_utils.EndsWith = check.endsWith
 w_utils.Print = print_utils.print
 w_utils.DeepCopy = copy_utils.deepCopy
 w_utils.Execute = cmd_utils.execute

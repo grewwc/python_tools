@@ -1,10 +1,17 @@
 local check = {}
 
-function check.EndsWith(str, sub)
-    if str == nil or sub == nil then 
+function check.endsWith(str, sub)
+    if str == nil or sub == nil then
         return false
     end
-    return str:sub(-#sub) == sub
+    return str:sub(- #sub) == sub
+end
+
+function check.startsWith(str, sub)
+    if str == nil or sub == nil then
+        return false
+    end
+    return str:sub(0, #sub) == sub
 end
 
 return check
