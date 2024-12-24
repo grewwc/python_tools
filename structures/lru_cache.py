@@ -15,7 +15,7 @@ class LruCache:
         self._cap = cap
         self._map = {}
         self._head = LruCache.Node(0, 0)
-        self._tail = LruCache.Node(0, 0)
+        self._tail = None
         self._head.next = self._tail
         self._tail = None
         self._count = 0
@@ -44,6 +44,8 @@ class LruCache:
             self._remove_tail()
 
     def _move_to_head(self, node: "LruCache.Node"):
+        if node == self._head.next:
+            return
         prev = node.prev
         next = node.next
         curr_head = self._head.next
@@ -56,12 +58,15 @@ class LruCache:
         node.next = curr_head
         if curr_head:
             curr_head.prev = node
+        if self._tail == node: 
+            self._tail = prev
 
     def _remove_tail(self):
         node = self._tail
         if not node:  # empty cache
             return
         prev = node.prev
+        print('here', node, prev)
         if prev == self._head or not prev:
             return
         prev.next = None
